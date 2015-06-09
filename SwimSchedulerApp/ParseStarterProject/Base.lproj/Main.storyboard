@@ -161,11 +161,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Welcome to Swim Scheduler!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lPR-FF-kxQ">
-                                <rect key="frame" x="33" y="43" width="308" height="46"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="255" id="rJ7-0v-9op"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <rect key="frame" x="16" y="43" width="343" height="46"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -250,9 +247,11 @@
                             <constraint firstItem="lPR-FF-kxQ" firstAttribute="top" secondItem="XqV-dK-Agm" secondAttribute="bottom" constant="23" id="N4I-DD-VwT"/>
                             <constraint firstItem="C85-W4-d8s" firstAttribute="leading" secondItem="ZxZ-uh-V4E" secondAttribute="trailing" constant="-47" id="Rqi-t1-LY7"/>
                             <constraint firstItem="ZxZ-uh-V4E" firstAttribute="top" secondItem="5JC-v2-QFk" secondAttribute="bottom" constant="8" id="gx6-5N-h13"/>
+                            <constraint firstItem="lPR-FF-kxQ" firstAttribute="leading" secondItem="w0a-dy-U95" secondAttribute="leadingMargin" id="jea-fs-Ymg"/>
                             <constraint firstItem="Iad-eu-Qcn" firstAttribute="top" secondItem="9Ac-Xd-8fY" secondAttribute="bottom" constant="28" id="jjb-s5-wat"/>
                             <constraint firstItem="9Ac-Xd-8fY" firstAttribute="top" secondItem="lPR-FF-kxQ" secondAttribute="bottom" constant="14" id="kJD-T0-6op"/>
                             <constraint firstAttribute="centerX" secondItem="5JC-v2-QFk" secondAttribute="centerX" id="kTE-0T-GoY"/>
+                            <constraint firstItem="lPR-FF-kxQ" firstAttribute="trailing" secondItem="w0a-dy-U95" secondAttribute="trailingMargin" id="n1b-he-c9Z"/>
                             <constraint firstAttribute="centerX" secondItem="9Ac-Xd-8fY" secondAttribute="centerX" id="nGN-zV-qo1"/>
                             <constraint firstAttribute="centerX" secondItem="3Ym-pr-Z3M" secondAttribute="centerX" id="oDb-Ae-PMP"/>
                             <constraint firstItem="C85-W4-d8s" firstAttribute="top" secondItem="5JC-v2-QFk" secondAttribute="bottom" constant="8" id="pG0-RI-FRh"/>
