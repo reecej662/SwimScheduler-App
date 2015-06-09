@@ -15,6 +15,8 @@ class TableViewController: UITableViewController {
     var firstNames = [""]
     var lastNames = [""]
     
+    var refresher: UIRefreshControl!
+    
     func refresh() {
         
         firstNames.removeAll(keepCapacity: true)
@@ -41,6 +43,8 @@ class TableViewController: UITableViewController {
                 
                 self.tableView.reloadData()
                 
+                self.refresher.endRefreshing()
+                
             }
         }
 
@@ -55,7 +59,18 @@ class TableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
+        super.viewDidLoad()
+        
+        refresher = UIRefreshControl()
+        
+        refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        
+        refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        
+        self.tableView.addSubview(refresher)
+        
         refresh()
+        
     }
 
     override func didReceiveMemoryWarning() {
