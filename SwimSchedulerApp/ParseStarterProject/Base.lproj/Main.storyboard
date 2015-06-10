@@ -97,6 +97,57 @@
             </objects>
             <point key="canvasLocation" x="2254.5" y="471.5"/>
         </scene>
+        <!--Client Info-->
+        <scene sceneID="ag8-vj-mTi">
+            <objects>
+                <viewController title="Client Info" id="Wh3-pW-WTa" customClass="ClientInfoViewController" customModule="SwimScheduler" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="G5m-ZK-na2"/>
+                        <viewControllerLayoutGuide type="bottom" id="Spr-Jh-OTl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Yt8-th-LHD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rh9-B3-H2G">
+                                <rect key="frame" x="16" y="145" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0k9-F4-U2H">
+                                <rect key="frame" x="104" y="263" width="36" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a2G-qn-sOG">
+                                <rect key="frame" x="240" y="263" width="38" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="0k9-F4-U2H" firstAttribute="top" secondItem="rh9-B3-H2G" secondAttribute="bottom" constant="97" id="6Ue-wi-r8u"/>
+                            <constraint firstItem="rh9-B3-H2G" firstAttribute="top" secondItem="G5m-ZK-na2" secondAttribute="bottom" constant="81" id="Lj7-er-AI4"/>
+                            <constraint firstItem="rh9-B3-H2G" firstAttribute="trailing" secondItem="Yt8-th-LHD" secondAttribute="trailingMargin" id="MUc-Xr-xKo"/>
+                            <constraint firstItem="rh9-B3-H2G" firstAttribute="leading" secondItem="Yt8-th-LHD" secondAttribute="leadingMargin" id="UDX-Nd-mra"/>
+                            <constraint firstItem="a2G-qn-sOG" firstAttribute="top" secondItem="rh9-B3-H2G" secondAttribute="bottom" constant="97" id="cQP-zP-IHK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="a2G-qn-sOG" secondAttribute="trailing" constant="81" id="hZk-Jf-X09"/>
+                            <constraint firstItem="0k9-F4-U2H" firstAttribute="leading" secondItem="Yt8-th-LHD" secondAttribute="leadingMargin" constant="88" id="xne-1h-SCb"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="name" destination="rh9-B3-H2G" id="hq2-hK-53N"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="khx-VS-k37" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1690.5" y="-318.5"/>
+        </scene>
         <!--Client List-->
         <scene sceneID="rac-Ad-e00">
             <objects>
@@ -126,6 +177,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <segue destination="Wh3-pW-WTa" kind="show" identifier="clientInfo" id="iDo-iZ-6rb"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PXW-95-AUF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

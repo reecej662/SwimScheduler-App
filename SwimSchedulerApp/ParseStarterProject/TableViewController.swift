@@ -14,6 +14,7 @@ class TableViewController: UITableViewController {
     var clientIds = [""]
     var firstNames = [""]
     var lastNames = [""]
+    var selectedClient:String!
     
     var refresher: UIRefreshControl!
     
@@ -132,6 +133,13 @@ class TableViewController: UITableViewController {
         }
     }
 
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        selectedClient = clientIds[indexPath.row]
+        self.performSegueWithIdentifier("clientInfo", sender: self)
+        
+    }
+    
     /*
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -159,14 +167,22 @@ class TableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        
+        if(segue.identifier == "clientInfo") {
+            
+            var clientPage = segue.destinationViewController as! ClientInfoViewController
+            
+            clientPage.clientId = selectedClient
+            
+        }
     }
-    */
+
 
 }
