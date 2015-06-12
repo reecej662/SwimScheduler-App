@@ -11,6 +11,7 @@
 		34A0F1E71B269AFA004983E1 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A0F1E61B269AFA004983E1 /* ParseCrashReporting.framework */; };
 		34A0F1ED1B26A3A7004983E1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A0F1EC1B26A3A7004983E1 /* LoginViewController.swift */; };
 		34B4DB761B2987690014B5E0 /* NewLessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B4DB751B2987690014B5E0 /* NewLessonViewController.swift */; };
+		34B4DB781B2B5ECC0014B5E0 /* lessonOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B4DB771B2B5ECC0014B5E0 /* lessonOptions.swift */; };
 		34F1E89E1B2770F900D9EBD2 /* ClientInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F1E89D1B2770F900D9EBD2 /* ClientInfoViewController.swift */; };
 		81BA814B1A49DA1800E65899 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BA814A1A49DA1800E65899 /* AppDelegate.swift */; };
 		81BA814D1A49DA1800E65899 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BA814C1A49DA1800E65899 /* ViewController.swift */; };
@@ -33,6 +34,7 @@
 		34A0F1E81B269BA5004983E1 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtilsV4.framework; path = Frameworks/ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		34A0F1EC1B26A3A7004983E1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		34B4DB751B2987690014B5E0 /* NewLessonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewLessonViewController.swift; sourceTree = "<group>"; };
+		34B4DB771B2B5ECC0014B5E0 /* lessonOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = lessonOptions.swift; sourceTree = "<group>"; };
 		34F1E89D1B2770F900D9EBD2 /* ClientInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientInfoViewController.swift; sourceTree = "<group>"; };
 		81BA81451A49DA1800E65899 /* SwimScheduler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwimScheduler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81BA81491A49DA1800E65899 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				81BA814A1A49DA1800E65899 /* AppDelegate.swift */,
 				81BA814C1A49DA1800E65899 /* ViewController.swift */,
 				81BA814E1A49DA1800E65899 /* Main.storyboard */,
+				34B4DB771B2B5ECC0014B5E0 /* lessonOptions.swift */,
 				34B4DB751B2987690014B5E0 /* NewLessonViewController.swift */,
 				34F1E89D1B2770F900D9EBD2 /* ClientInfoViewController.swift */,
 				3426748E1B24C19500DA230B /* TableViewController.swift */,
@@ -234,6 +237,7 @@
 				34A0F1ED1B26A3A7004983E1 /* LoginViewController.swift in Sources */,
 				81BA814D1A49DA1800E65899 /* ViewController.swift in Sources */,
 				34B4DB761B2987690014B5E0 /* NewLessonViewController.swift in Sources */,
+				34B4DB781B2B5ECC0014B5E0 /* lessonOptions.swift in Sources */,
 				3426748F1B24C19500DA230B /* TableViewController.swift in Sources */,
 				81BA814B1A49DA1800E65899 /* AppDelegate.swift in Sources */,
 			);

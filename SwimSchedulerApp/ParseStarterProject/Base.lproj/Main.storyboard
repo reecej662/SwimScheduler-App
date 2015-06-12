@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WiP-FO-ErX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="77v-O2-jhl">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -171,9 +171,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gRW-1I-0fe">
-                                <rect key="frame" x="163" y="504" width="49" height="30"/>
+                                <rect key="frame" x="163" y="452" width="49" height="30"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="49" id="blo-fD-kHh"/>
                                     <constraint firstAttribute="width" constant="49" id="h5G-pP-EhH"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="49" id="i5b-YD-yKg"/>
+                                    <constraint firstAttribute="height" constant="30" id="jJ4-VC-rwz"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="49" id="q7f-T0-H53"/>
                                 </constraints>
                                 <state key="normal" title="Submit">
@@ -184,13 +187,16 @@
                                 </connections>
                             </button>
                             <datePicker contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="KT8-Xl-AqR">
-                                <rect key="frame" x="0.0" y="125.5" width="375" height="162"/>
+                                <rect key="frame" x="0.0" y="125" width="375" height="162"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="162" id="2dp-qf-hqR"/>
+                                </constraints>
                                 <date key="date" timeIntervalSinceReferenceDate="455820606.089122">
                                     <!--2015-06-12 16:50:06 +0000-->
                                 </date>
                             </datePicker>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="jQl-or-EMU">
-                                <rect key="frame" x="0.0" y="327" width="375" height="114"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="jQl-or-EMU">
+                                <rect key="frame" x="0.0" y="317" width="375" height="100"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="w6n-bu-sYy">
@@ -201,11 +207,59 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xyh-BH-6TV">
-                                <rect key="frame" x="166" y="84" width="36" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xyh-BH-6TV">
+                                <rect key="frame" x="163" y="91" width="47" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="jQl-or-EMU" secondAttribute="trailing" constant="-16" id="Ha8-gz-7bI"/>
+                            <constraint firstItem="gRW-1I-0fe" firstAttribute="top" secondItem="jQl-or-EMU" secondAttribute="bottom" constant="35" id="Kdr-lw-J5i"/>
+                            <constraint firstAttribute="centerX" secondItem="gRW-1I-0fe" secondAttribute="centerX" id="XZ5-Ly-7FY"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="KT8-Xl-AqR" secondAttribute="trailing" constant="-16" id="adM-xn-02z"/>
+                            <constraint firstItem="KT8-Xl-AqR" firstAttribute="top" secondItem="Xyh-BH-6TV" secondAttribute="bottom" constant="13" id="adt-QQ-A6Y"/>
+                            <constraint firstItem="jQl-or-EMU" firstAttribute="leading" secondItem="NvC-Zv-1no" secondAttribute="leadingMargin" constant="-16" id="aqi-Lo-z8E"/>
+                            <constraint firstAttribute="centerX" secondItem="Xyh-BH-6TV" secondAttribute="centerX" id="nAV-Zw-1kZ"/>
+                            <constraint firstItem="jQl-or-EMU" firstAttribute="top" secondItem="KT8-Xl-AqR" secondAttribute="bottom" constant="30" id="p95-37-fUS"/>
+                            <constraint firstItem="KT8-Xl-AqR" firstAttribute="leading" secondItem="NvC-Zv-1no" secondAttribute="leadingMargin" constant="-16" id="snP-j0-syK"/>
+                            <constraint firstItem="Xyh-BH-6TV" firstAttribute="top" secondItem="dUY-aF-zqt" secondAttribute="bottom" constant="27" id="wVH-EG-KrI"/>
+                            <constraint firstAttribute="centerX" secondItem="KT8-Xl-AqR" secondAttribute="centerX" id="x6I-7g-FHa"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="date" destination="KT8-Xl-AqR" id="V4K-zk-Vbx"/>
+                        <outlet property="lessonOptionsTable" destination="jQl-or-EMU" id="cGn-wW-9DQ"/>
+                        <segue destination="77v-O2-jhl" kind="showDetail" identifier="doDopeShit" id="zoI-95-GLg"/>
+                        <segue destination="IPs-3c-aZU" kind="show" identifier="chooseClient" id="6Ie-pc-nGg"/>
+                        <segue destination="Pcw-GF-kIo" kind="show" identifier="chooseTime" id="Kdx-3T-vQL"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1690.5" y="-690.5"/>
+        </scene>
+        <!--Lesson Options-->
+        <scene sceneID="QFp-n4-OyQ">
+            <objects>
+                <viewController id="Pcw-GF-kIo" customClass="lessonOptions" customModule="SwimScheduler" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FEn-tj-8Wb"/>
+                        <viewControllerLayoutGuide type="bottom" id="8Ym-9c-gzc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JsR-GV-Vgi">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hUx-EA-CSF">
+                                <rect key="frame" x="0.0" y="224" width="375" height="204"/>
+                            </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please choose a Length" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Jw-8c-w4e">
+                                <rect key="frame" x="95" y="110" width="184" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="36" id="7Hq-Ug-q8A"/>
-                                    <constraint firstAttribute="width" constant="36" id="9cy-6B-KHo"/>
+                                    <constraint firstAttribute="width" constant="184" id="Saj-aE-LZM"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -214,27 +268,49 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="Xyh-BH-6TV" secondAttribute="centerX" id="0PR-ks-sf1"/>
-                            <constraint firstAttribute="centerX" secondItem="gRW-1I-0fe" secondAttribute="centerX" id="2s4-p7-AJ0"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="jQl-or-EMU" secondAttribute="trailing" constant="-16" id="TsB-75-HgY"/>
-                            <constraint firstItem="Xyh-BH-6TV" firstAttribute="top" secondItem="dUY-aF-zqt" secondAttribute="bottom" constant="30" id="Zn1-ny-DTw"/>
-                            <constraint firstItem="jQl-or-EMU" firstAttribute="top" secondItem="KT8-Xl-AqR" secondAttribute="bottom" constant="39.5" id="apI-rF-3cT"/>
-                            <constraint firstItem="jQl-or-EMU" firstAttribute="leading" secondItem="NvC-Zv-1no" secondAttribute="leadingMargin" constant="-16" id="eNT-ak-Yst"/>
-                            <constraint firstItem="gRW-1I-0fe" firstAttribute="top" secondItem="jQl-or-EMU" secondAttribute="bottom" constant="63" id="h3u-i8-IEq"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="KT8-Xl-AqR" secondAttribute="trailing" constant="-16" id="hgS-AT-wte"/>
-                            <constraint firstItem="KT8-Xl-AqR" firstAttribute="top" secondItem="Xyh-BH-6TV" secondAttribute="bottom" constant="10" id="qL6-HF-K1m"/>
-                            <constraint firstItem="KT8-Xl-AqR" firstAttribute="leading" secondItem="NvC-Zv-1no" secondAttribute="leadingMargin" constant="-16" id="wmj-lx-buV"/>
+                            <constraint firstItem="hUx-EA-CSF" firstAttribute="top" secondItem="2Jw-8c-w4e" secondAttribute="bottom" constant="93" id="S6t-j3-cSZ"/>
+                            <constraint firstAttribute="centerX" secondItem="2Jw-8c-w4e" secondAttribute="centerX" id="Vbq-We-7a9"/>
+                            <constraint firstItem="hUx-EA-CSF" firstAttribute="leading" secondItem="JsR-GV-Vgi" secondAttribute="leadingMargin" constant="-16" id="d3b-8l-CNg"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hUx-EA-CSF" secondAttribute="trailing" constant="-16" id="fjH-NM-ltp"/>
+                            <constraint firstItem="2Jw-8c-w4e" firstAttribute="top" secondItem="FEn-tj-8Wb" secondAttribute="bottom" constant="90" id="qoH-ic-qIS"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="XqZ-a0-BI1"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="date" destination="KT8-Xl-AqR" id="V4K-zk-Vbx"/>
-                        <outlet property="lessonOptionsTable" destination="jQl-or-EMU" id="cGn-wW-9DQ"/>
-                        <segue destination="77v-O2-jhl" kind="push" identifier="doDopeShit" id="zoI-95-GLg"/>
+                        <outlet property="length" destination="hUx-EA-CSF" id="CEt-Cx-Dem"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AW6-yU-Th3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1690.5" y="-410.5"/>
+            <point key="canvasLocation" x="2254.5" y="-328.5"/>
+        </scene>
+        <!--Client List-->
+        <scene sceneID="Abx-uJ-wJK">
+            <objects>
+                <tableViewController title="Client List" id="IPs-3c-aZU" customClass="TableViewController" customModule="SwimScheduler" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="a69-Kh-sxC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="8Bg-SI-sHT">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8Bg-SI-sHT" id="Nr4-g6-wC0">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="IPs-3c-aZU" id="QFx-0L-ppl"/>
+                            <outlet property="delegate" destination="IPs-3c-aZU" id="Lw7-E5-PD8"/>
+                        </connections>
+                    </tableView>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f1I-j0-Udx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2254.5" y="-1092.5"/>
         </scene>
         <!--Client List-->
         <scene sceneID="rac-Ad-e00">
@@ -420,10 +496,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pd3-in-CvD" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="573.5" y="471.5"/>
+            <point key="canvasLocation" x="574.5" y="471.5"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="zoI-95-GLg"/>
+        <segue reference="XWX-pa-j4H"/>
     </inferredMetricsTieBreakers>
 </document>
