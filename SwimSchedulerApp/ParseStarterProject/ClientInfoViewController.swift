@@ -18,8 +18,6 @@ class ClientInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        println(clientId)
-        
         var query = PFQuery(className: "clients")
         
         //put this into a refresh function to load once the data has been loaded

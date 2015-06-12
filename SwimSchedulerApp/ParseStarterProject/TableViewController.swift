@@ -16,6 +16,12 @@ class TableViewController: UITableViewController {
     var lastNames = [""]
     var selectedClient:String!
     
+    @IBAction func newLesson(sender: AnyObject) {
+        
+        performSegueWithIdentifier("newLesson", sender: self)
+        
+    }
+
     var refresher: UIRefreshControl!
     
     func refresh() {
@@ -110,7 +116,7 @@ class TableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
             // handle delete (by removing the data from your array and updating the tableview)
             
             var deleteId = clientIds[indexPath.row]
@@ -130,27 +136,25 @@ class TableViewController: UITableViewController {
             lastNames.removeAtIndex(indexPath.row)
             
             self.tableView.reloadData()
+        } else if editingStyle == UITableViewCellEditingStyle.Insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
 
+    /*
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        
+
+        
+    }
+    */
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         selectedClient = clientIds[indexPath.row]
         self.performSegueWithIdentifier("clientInfo", sender: self)
-        
     }
-    
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
 
     /*
     // Override to support rearranging the table view.
