@@ -9,14 +9,18 @@
 import UIKit
 import Parse
 
-class NewLessonViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
-    //yo make this only choose between availiable lengths like 30 mins or whatever
+class NewLessonViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, lessonInfoDelegate {
 
     @IBOutlet var date: UIDatePicker!
     @IBOutlet var lessonOptionsTable: UITableView!
     
     var lessonOptions = ["Client", "Length"]
+    var lessonInfo = ""
+    var clientId = " "
+    var clientName = ""
+    var length = 30
+    
+    var dateCorrection:NSTimeInterval = -18000 //-5 hours
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,22 +29,66 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
         lessonOptionsTable.delegate = self
         lessonOptionsTable.dataSource = self
         
+        
+        var query = PFQuery(className: "clients")
+        query.getObjectInBackgroundWithId(clientId, block: { (object, error) -> Void in
+            if error == nil && object != nil {
+                let firstName = object?.objectForKey("firstName") as! String
+                let lastName = object?.objectForKey("lastName") as! String
+                self.clientName = firstName + " " + lastName
+            }
+        })
+        
     }
     
-    @IBAction func submit(sender: AnyObject) {
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(true)
+    
+    }
+    
+    @IBAction func cancel(sender: AnyObject) {
+
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func save(sender: AnyObject) {
         
-        //when the submit button is pressed set the values and save the new lesson
         var lesson = PFObject(className: "lessons")
-        lesson["date"] = date.date
-        lesson["clientId"] = "Implement later"
-        lesson["instructorId"] = PFUser.currentUser()?.objectId
         
-        lesson.saveInBackground()
+        var lessonDate:NSDate = date.date
+        lessonDate = lessonDate.dateByAddingTimeInterval(dateCorrection)
         
-        performSegueWithIdentifier("doDopeShit", sender: self)
+        if(clientId == "") {
+            
+            let alertController = UIAlertController(title: "Error", message: "Please select client", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default,handler: nil))
+                
+            self.presentViewController(alertController, animated: true, completion: nil)
+    
+        } else {
+        
+            lesson["date"] = lessonDate
+            lesson["clientId"] = clientId
+            lesson["instructorId"] = PFUser.currentUser()?.objectId
+            lesson["length"] = length
+        
+            lesson.saveInBackgroundWithBlock({ (success, error) -> Void in
+                if error != nil {
+                    
+                    let alertController = UIAlertController(title: "Error", message: "Could not save lesson", preferredStyle: UIAlertControllerStyle.Alert)
+                    alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                    
+                }
+            })
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
+            
+        }
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -49,24 +97,27 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
     //Functions for the table view below the date picker
     
     func numberOfSectionsInTableView(tableView:UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
+
         return 1
     }
     
     func tableView(tableView:UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section
+        
         return lessonOptions.count
         
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = lessonOptionsTable.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell: UITableViewCell! = lessonOptionsTable.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
         
-        // Configure the cell...
         cell.textLabel!.text = lessonOptions[indexPath.row]
         
+        if indexPath.row == 0 {
+            cell.detailTextLabel!.text = clientId
+        } else {
+            cell.detailTextLabel!.text = String(length)
+        }
+
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         
         return cell
@@ -81,9 +132,6 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView:UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         lessonOptionsTable.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        //selectedClient = clientIds[indexPath.row]
-        //self.performSegueWithIdentifier("clientInfo", sender: self)
     
         if indexPath.row == 0 {
             performSegueWithIdentifier("chooseClient", sender: self)
@@ -99,19 +147,28 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         
-        if(segue.identifier == "clientInfo") {
+        if segue.identifier == "chooseClient" {
             
-            var clientPage = segue.destinationViewController as! ClientInfoViewController
+            var client = segue.destinationViewController as! selectClientView
+            client.delegate = self
             
-            //clientPage.clientId = selectedClient
+        } else if segue.identifier == "chooseTime" {
             
-        } else if segue.identifier == "chooseClient" {
-            
-            
+            var time = segue.destinationViewController as! lessonOptionsController
+            time.delegate = self
             
         }
     }
     
-
-
+    func backFromLength(message: Int) {
+        self.length = message
+        lessonOptionsTable.reloadData()
+    }
+    
+    func backFromClientSelect(message: String) {
+        //self.clientName.removeAll(keepCapacity: true)
+        self.clientId = message
+        lessonOptionsTable.reloadData()
+    }
+    
 }
