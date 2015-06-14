@@ -45,7 +45,7 @@ class ClientInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                 
                     self.getLessonsWithId(self.clientId)
                     
-                    self.lessonInfoTable.reloadData()
+                    //self.lessonInfoTable.reloadData()
                     
                 
                 } else {
@@ -59,6 +59,12 @@ class ClientInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         
         lessonInfoTable.reloadData()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(true)
+        
+        lessonInfoTable.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -145,14 +151,8 @@ class ClientInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = lessonInfoTable.dequeueReusableCellWithIdentifier("infoCell", forIndexPath: indexPath) as! UITableViewCell
     
-        if indexPath.row == 0 {
-            cell.detailTextLabel!.text = lessonTimes[0]
-            cell.textLabel!.text = lessonDates[0]
-            cell.reloadInputViews()
-        } else {
-            cell.detailTextLabel!.text = lessonTimes[indexPath.row]
-            cell.textLabel!.text = lessonDates[indexPath.row]
-        }
+            cell.detailTextLabel!.text = String(lessonTimes[indexPath.row])
+            cell.textLabel!.text = String(lessonDates[indexPath.row])
     
         return cell
     }

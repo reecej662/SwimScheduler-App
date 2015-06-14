@@ -21,7 +21,7 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
     var clientName = ""
     var length = 30
     
-    var dateCorrection:NSTimeInterval = -18000 //-5 hours
+    var dateCorrection:NSTimeInterval = 0// -18000 //-5 hours
     
     override func viewDidLoad() {
         super.viewDidLoad()
