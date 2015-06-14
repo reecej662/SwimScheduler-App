@@ -21,14 +21,25 @@ class TableViewController: UITableViewController {
         performSegueWithIdentifier("newLesson", sender: self)
         
     }
-
+    
     var refresher: UIRefreshControl!
+    
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     
     func refresh() {
         
         firstNames.removeAll(keepCapacity: true)
         lastNames.removeAll(keepCapacity: true)
         clientIds.removeAll(keepCapacity: true)
+
+        //refresher in middle of page while loading names
+        activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        UIApplication.sharedApplication().beginIgnoringInteractionEvents()
         
         var query = PFQuery(className: "clients")
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
@@ -50,6 +61,9 @@ class TableViewController: UITableViewController {
                 
                 self.tableView.reloadData()
                 
+                self.activityIndicator.stopAnimating()
+                UIApplication.sharedApplication().endIgnoringInteractionEvents()
+            
                 self.refresher.endRefreshing()
                 
             }
@@ -143,6 +157,7 @@ class TableViewController: UITableViewController {
                 }
             })
             
+            removeLessonsForClientId(clientIds[indexPath.row])
             clientIds.removeAtIndex(indexPath.row)
             firstNames.removeAtIndex(indexPath.row)
             lastNames.removeAtIndex(indexPath.row)
@@ -153,6 +168,25 @@ class TableViewController: UITableViewController {
         }
     }
 
+    func removeLessonsForClientId(clientId: String) {
+        
+        var query = PFQuery(className: "lessons")
+        query.whereKey("clientId", equalTo: clientId)
+        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+            
+            if error == nil && objects != nil{
+                
+                if let objects = objects as? [PFObject] {
+                    for object in objects {
+                        object.deleteInBackground()
+                    }
+                }
+                
+            }
+        }
+        
+    }
+    
     /*
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         

@@ -15,6 +15,8 @@ protocol lessonInfoDelegate {
 
 class lessonOptionsController: UIViewController, UITextFieldDelegate /*,UIPickerViewDelegate, UIPickerViewDataSource*/ {
 
+    // This is going to be the field that selects the kid
+    
     @IBOutlet var length: UITextField!
     
     var delegate:lessonInfoDelegate? = nil
@@ -69,7 +71,6 @@ class selectClientView: TableViewController {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         let name = firstNames[indexPath.row] as String + " " + lastNames[indexPath.row] as String
-        println(name)
         
         self.delegate?.backFromClientSelect(clientIds[indexPath.row], name: name)
         navigationController?.popViewControllerAnimated(true)

@@ -13,8 +13,9 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
 
     @IBOutlet var date: UIDatePicker!
     @IBOutlet var lessonOptionsTable: UITableView!
+    @IBOutlet var lessonLength: UISegmentedControl!
     
-    var lessonOptions = ["Client", "Length"]
+    var lessonOptions = ["Client"]//, "Length"]
     var lessonInfo = ""
     var clientId = ""
     var clientName = ""
@@ -28,17 +29,6 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
         // Do any additional setup after loading the view.
         lessonOptionsTable.delegate = self
         lessonOptionsTable.dataSource = self
-        
-        /*
-        var query = PFQuery(className: "clients")
-        query.getObjectInBackgroundWithId(clientId, block: { (object, error) -> Void in
-            if error == nil && object != nil {
-                let firstName = object?.objectForKey("firstName") as! String
-                let lastName = object?.objectForKey("lastName") as! String
-                self.clientName = firstName + " " + lastName
-            }
-        })
-        */
         
     }
     
@@ -125,6 +115,27 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
 
+    @IBAction func selectedLength(sender: AnyObject) {
+        
+        switch sender.selectedSegmentIndex {
+        case 0:
+            length = 15
+            break
+        case 1:
+            length = 30
+            break
+        case 2:
+            length = 45
+            break
+        case 3:
+            length = 60
+            break
+        default:
+            break
+        }  //Switch
+        
+    }
+    
     // Override to support conditional editing of the table view.
    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return NO if you do not want the specified item to be editable.
@@ -162,8 +173,8 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func backFromLength(message: Int) {
-        self.length = message
-        lessonOptionsTable.reloadData()
+        //self.length = message
+        //lessonOptionsTable.reloadData()
     }
     
     func backFromClientSelect(message: String, name: String) {
