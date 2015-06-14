@@ -10,7 +10,7 @@ import UIKit
 
 protocol lessonInfoDelegate {
     func backFromLength(message:Int)
-    func backFromClientSelect(message:String)
+    func backFromClientSelect(message:String, name:String)
 }
 
 class lessonOptionsController: UIViewController, UITextFieldDelegate /*,UIPickerViewDelegate, UIPickerViewDataSource*/ {
@@ -68,9 +68,10 @@ class selectClientView: TableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        println(clientIds)
+        let name = firstNames[indexPath.row] as String + " " + lastNames[indexPath.row] as String
+        println(name)
         
-        self.delegate?.backFromClientSelect(clientIds[indexPath.row])
+        self.delegate?.backFromClientSelect(clientIds[indexPath.row], name: name)
         navigationController?.popViewControllerAnimated(true)
     }
     

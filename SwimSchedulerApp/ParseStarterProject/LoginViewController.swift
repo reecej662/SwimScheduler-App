@@ -73,7 +73,8 @@ class LoginViewController: UIViewController {
                         
                         //signup successful
                         
-                        self.performSegueWithIdentifier("login", sender: self)
+                        //self.performSegueWithIdentifier("login", sender: self)
+                        self.dismissViewControllerAnimated(true, completion: nil)
                         
                     } else {
                         
@@ -102,7 +103,8 @@ class LoginViewController: UIViewController {
                         
                         // Logged in!
                         
-                        self.performSegueWithIdentifier("login", sender: self)
+                        //self.performSegueWithIdentifier("login", sender: self)
+                        self.dismissViewControllerAnimated(true, completion: nil)
                         
                     } else {
                         
@@ -152,7 +154,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+    
         // Do any additional setup after loading the view.
     }
 

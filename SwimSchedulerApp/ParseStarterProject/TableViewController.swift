@@ -59,7 +59,7 @@ class TableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -68,15 +68,27 @@ class TableViewController: UITableViewController {
         
         super.viewDidLoad()
         
-        refresher = UIRefreshControl()
+        var currentUser = PFUser.currentUser()
         
-        refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        
-        refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
-        
-        self.tableView.addSubview(refresher)
-        
-        refresh()
+        if currentUser?.objectId != nil {
+            
+            refresher = UIRefreshControl()
+            
+            refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
+            
+            refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+            
+            self.tableView.addSubview(refresher)
+            
+            refresh()
+            
+        } else {
+            
+            self.performSegueWithIdentifier("login", sender: self)
+            
+            println("Nobody is logged in")
+            
+        }
         
     }
 

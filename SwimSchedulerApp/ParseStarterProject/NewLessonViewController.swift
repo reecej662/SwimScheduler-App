@@ -16,7 +16,7 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var lessonOptions = ["Client", "Length"]
     var lessonInfo = ""
-    var clientId = " "
+    var clientId = ""
     var clientName = ""
     var length = 30
     
@@ -29,7 +29,7 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
         lessonOptionsTable.delegate = self
         lessonOptionsTable.dataSource = self
         
-        
+        /*
         var query = PFQuery(className: "clients")
         query.getObjectInBackgroundWithId(clientId, block: { (object, error) -> Void in
             if error == nil && object != nil {
@@ -38,6 +38,7 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.clientName = firstName + " " + lastName
             }
         })
+        */
         
     }
     
@@ -113,7 +114,7 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.textLabel!.text = lessonOptions[indexPath.row]
         
         if indexPath.row == 0 {
-            cell.detailTextLabel!.text = clientId
+            cell.detailTextLabel!.text = clientName
         } else {
             cell.detailTextLabel!.text = String(length)
         }
@@ -165,9 +166,10 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
         lessonOptionsTable.reloadData()
     }
     
-    func backFromClientSelect(message: String) {
+    func backFromClientSelect(message: String, name: String) {
         //self.clientName.removeAll(keepCapacity: true)
         self.clientId = message
+        self.clientName = name
         lessonOptionsTable.reloadData()
     }
     
