@@ -9,20 +9,21 @@
 import UIKit
 import Parse
 
-class ClientInfoViewController: UIViewController{//, UITableViewDelegate, UITableViewDataSource {
+class ClientInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var clientId:String!
-    var lessonDates = ["1", "2", "3", "4"]
+    var lessonIds = [""]
+    var lessonDates = [""]
     var lessonTimes = [""]
 
     @IBOutlet var name: UILabel!
-    //@IBOutlet var lessonDatesTable: UITableView!
+    @IBOutlet var lessonInfoTable: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //lessonDatesTable.delegate = self
-        //lessonDatesTable.dataSource = self
+        lessonInfoTable.delegate = self
+        lessonInfoTable.dataSource = self
         
         var query = PFQuery(className: "clients")
         
@@ -37,6 +38,15 @@ class ClientInfoViewController: UIViewController{//, UITableViewDelegate, UITabl
                     let lastName = client["lastName"] as! String
                 
                     self.name.text = firstName + " " + lastName
+                    
+                    self.lessonDates.removeAll(keepCapacity: true)
+                    self.lessonTimes.removeAll(keepCapacity: true)
+                    self.lessonIds.removeAll(keepCapacity: true)
+                
+                    self.getLessonsWithId(self.clientId)
+                    
+                    self.lessonInfoTable.reloadData()
+                    
                 
                 } else {
                 
@@ -45,12 +55,9 @@ class ClientInfoViewController: UIViewController{//, UITableViewDelegate, UITabl
                 }
             
             })
-           
-            //lessonDates.removeAll(keepCapacity: true)
-            //lessonTimes.removeAll(keepCapacity: true)
-            //getLessonsWithId(clientId)
-            //lessonDatesTable.reloadData()
         }
+        
+        lessonInfoTable.reloadData()
         // Do any additional setup after loading the view.
     }
 
@@ -59,11 +66,20 @@ class ClientInfoViewController: UIViewController{//, UITableViewDelegate, UITabl
         // Dispose of any resources that can be recreated.
     }
     
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
 
     func getLessonsWithId(client: String) {
         
+        activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+        
         var query = PFQuery(className: "lessons")
-        query.whereKey("clientId", equalTo: clientId)
+        query.whereKey("clientId", equalTo: client)
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             
             if error == nil && objects != nil{
@@ -71,18 +87,37 @@ class ClientInfoViewController: UIViewController{//, UITableViewDelegate, UITabl
                 if let objects = objects as? [PFObject] {
                     for object in objects {
                         
-                        var lessonDate = object.valueForKey("date") as! String
-                        self.lessonDates.append(lessonDate)
+                        var lessonDate = object.valueForKey("date") as! NSDate
+                        
+                        var dateFormatter = NSDateFormatter()
+                        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+                        let stringDate: String = dateFormatter.stringFromDate(lessonDate)
+                        
+                        dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle
+                        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+                        let stringTime: String = dateFormatter.stringFromDate(lessonDate)
+      
+                        self.lessonIds.append(object.objectId!)
+                        self.lessonTimes.append(stringTime)
+                        self.lessonDates.append(stringDate)
 
                     }
+                    
+                    self.lessonInfoTable.reloadData()
+                    
+                    self.activityIndicator.stopAnimating()
+                    UIApplication.sharedApplication().endIgnoringInteractionEvents()
+                    
+                    println(self.lessonDates)
+                    println(self.lessonTimes)
+                    println(self.lessonIds)
+                    
                 }
                 
             }
             
         }
-        
-        //lessonDatesTable.reloadData()
-        
+    
     }
     
     /*
@@ -94,7 +129,7 @@ class ClientInfoViewController: UIViewController{//, UITableViewDelegate, UITabl
         // Pass the selected object to the new view controller.
     }
     */
-    /*
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
@@ -108,25 +143,49 @@ class ClientInfoViewController: UIViewController{//, UITableViewDelegate, UITabl
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = lessonDatesTable.dequeueReusableCellWithIdentifier("dateCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = lessonInfoTable.dequeueReusableCellWithIdentifier("infoCell", forIndexPath: indexPath) as! UITableViewCell
     
-        cell.textLabel!.text = lessonDates[indexPath.row]
+        if indexPath.row == 0 {
+            cell.detailTextLabel!.text = lessonTimes[0]
+            cell.textLabel!.text = lessonDates[0]
+            cell.reloadInputViews()
+        } else {
+            cell.detailTextLabel!.text = lessonTimes[indexPath.row]
+            cell.textLabel!.text = lessonDates[indexPath.row]
+        }
     
         return cell
     }
     
-    /*
+    
     // Override to support editing the table view.
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            // Delete the row from the data source
-            // Delete the lesson
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+     
+            var deleteId = lessonIds[indexPath.row]
+            
+            var query = PFQuery(className: "lessons")
+            
+            query.getObjectInBackgroundWithId(deleteId, block: { (object, error) -> Void in
+                if error == nil && object != nil{
+                    object!.deleteInBackground()
+                } else {
+                    //println(error)
+                }
+            })
+            
+            lessonIds.removeAtIndex(indexPath.row)
+            lessonDates.removeAtIndex(indexPath.row)
+            lessonTimes.removeAtIndex(indexPath.row)
+            
+            self.lessonInfoTable.reloadData()
+
+            
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
-    */*/
+    
 }
 
 /*
