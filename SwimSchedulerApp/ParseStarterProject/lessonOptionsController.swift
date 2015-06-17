@@ -7,61 +7,160 @@
 //
 
 import UIKit
+import Parse
 
 protocol lessonInfoDelegate {
-    func backFromLength(message:Int)
+    func backFromStudentSelect(message:String, name:String)
     func backFromClientSelect(message:String, name:String)
 }
 
-class lessonOptionsController: UIViewController, UITextFieldDelegate /*,UIPickerViewDelegate, UIPickerViewDataSource*/ {
+class selectStudentView: UITableViewController, UITextFieldDelegate /*,UIPickerViewDelegate, UIPickerViewDataSource*/ {
 
-    // This is going to be the field that selects the kid
+    // This is going to be the table where the person chooses the kid
     
-    @IBOutlet var length: UITextField!
+    var studentIds = [""]
+    var studentNames = [""]
+    var clientId:String!
     
-    var delegate:lessonInfoDelegate? = nil
-
-    override func viewDidLoad() {
-
-        super.viewDidLoad()
+    @IBOutlet var studentTable: UITableView!
+    
+    var refresher: UIRefreshControl!
+    
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    
+    func refresh() {
         
-        // Do any additional setup after loading the view.
+        studentNames.removeAll(keepCapacity: true)
+        studentIds.removeAll(keepCapacity: true)
         
-        length.delegate = self
-        length.becomeFirstResponder()
-
+        //refresher in middle of page while loading names
+        activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+        
+        var query = PFQuery(className: "students")
+        query.whereKey("parent", equalTo: clientId)
+        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+            if let objects = objects {
+                
+                for object in objects {
+                    
+                    if(object["name"]! != nil) {
+                        
+                        if let objectId = object.objectId {
+                            self.studentIds.append(objectId! as String)
+                        }
+                        
+                        self.studentNames.append(object["name"] as! String)
+                        
+                    }
+                }
+                
+                self.studentTable.reloadData()
+                
+                self.activityIndicator.stopAnimating()
+                UIApplication.sharedApplication().endIgnoringInteractionEvents()
+                
+                //self.refresher.endRefreshing()
+                
+            }
+        }
+        
     }
-
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        refresh()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Table view data source
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        length.resignFirstResponder()
-        
-        var text = length.text
-        let lengthNum:Int? = text.toInt()
-        
-        if lengthNum != nil {
-        
-            self.delegate?.backFromLength(lengthNum!)
-            navigationController?.popViewControllerAnimated(true)
-            
-        } else {
-            
-            let alertController = UIAlertController(title: "Error", message: "Enter a valid number", preferredStyle: UIAlertControllerStyle.Alert)
-            
-            alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default,handler: nil))
-            
-            self.presentViewController(alertController, animated: true, completion: nil)
-        }
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return studentNames.count
+    }
+    
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
 
+        cell.textLabel!.text = studentNames[indexPath.row]
+        return cell
+        
+    }
+    
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // Return NO if you do not want the specified item to be editable.
         return true
     }
-
+    
+    var delegate:lessonInfoDelegate? = nil
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        let name = studentNames[indexPath.row] as String
+        
+        self.delegate?.backFromStudentSelect(studentIds[indexPath.row], name: name)
+        navigationController?.popViewControllerAnimated(true)
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            // handle delete (by removing the data from your array and updating the tableview)
+            
+            var deleteId = studentIds[indexPath.row]
+            
+            var query = PFQuery(className: "students")
+            
+            query.getObjectInBackgroundWithId(deleteId, block: { (object, error) -> Void in
+                if error == nil && object != nil{
+                    object!.deleteInBackground()
+                } else {
+                    println(error)
+                }
+            })
+            
+            removeLessonsForClientId(studentIds[indexPath.row])
+            studentIds.removeAtIndex(indexPath.row)
+            
+            self.tableView.reloadData()
+        }
+    }
+    
+    func removeLessonsForClientId(clientId: String) {
+        
+        var query = PFQuery(className: "lessons")
+        query.whereKey("clientId", equalTo: clientId)
+        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+            
+            if error == nil && objects != nil{
+                
+                if let objects = objects as? [PFObject] {
+                    for object in objects {
+                        object.deleteInBackground()
+                    }
+                }
+                
+            }
+        }
+        
+    }
+    
 }
+
 
 class selectClientView: TableViewController {
     
@@ -77,4 +176,3 @@ class selectClientView: TableViewController {
     }
     
 }
-

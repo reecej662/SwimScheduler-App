@@ -30,7 +30,9 @@ class LoginViewController: UIViewController {
         var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction((UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
             
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.username.text = ""
+            self.password.text = ""
+            self.username.becomeFirstResponder()
             
         })))
         

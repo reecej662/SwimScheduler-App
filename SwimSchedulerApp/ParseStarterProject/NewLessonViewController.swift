@@ -15,10 +15,12 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet var lessonOptionsTable: UITableView!
     @IBOutlet var lessonLength: UISegmentedControl!
     
-    var lessonOptions = ["Client"]//, "Length"]
+    var lessonOptions = ["Client", "Student"]
     var lessonInfo = ""
     var clientId = ""
     var clientName = ""
+    var studentId = ""
+    var studentName = ""
     var length = 30
     
     var dateCorrection:NSTimeInterval = 0// -18000 //-5 hours
@@ -105,8 +107,8 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if indexPath.row == 0 {
             cell.detailTextLabel!.text = clientName
-        } else {
-            cell.detailTextLabel!.text = String(length)
+        } else if indexPath.row == 1 {
+            cell.detailTextLabel!.text = studentName
         }
 
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
@@ -149,7 +151,20 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
             performSegueWithIdentifier("chooseClient", sender: self)
             
         } else if indexPath.row == 1 {
-            performSegueWithIdentifier("chooseTime", sender: self)
+           
+            if(clientId == "") {
+                
+                let alertController = UIAlertController(title: "Error", message: "First please select client", preferredStyle: UIAlertControllerStyle.Alert)
+                
+                alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default,handler: nil))
+                
+                self.presentViewController(alertController, animated: true, completion: nil)
+                
+            } else {
+            
+                performSegueWithIdentifier("chooseStudent", sender: self)
+            
+            }
             
         }
     }
@@ -164,17 +179,20 @@ class NewLessonViewController: UIViewController, UITableViewDelegate, UITableVie
             var client = segue.destinationViewController as! selectClientView
             client.delegate = self
             
-        } else if segue.identifier == "chooseTime" {
+        } else if segue.identifier == "chooseStudent" {
             
-            var time = segue.destinationViewController as! lessonOptionsController
-            time.delegate = self
+            var student = segue.destinationViewController as! selectStudentView
+            student.clientId = clientId
+            student.delegate = self
             
         }
     }
     
-    func backFromLength(message: Int) {
-        //self.length = message
-        //lessonOptionsTable.reloadData()
+    func backFromStudentSelect(message: String, name: String) {
+        self.studentId = message
+        self.studentName = name
+        lessonOptionsTable.reloadData()
+
     }
     
     func backFromClientSelect(message: String, name: String) {

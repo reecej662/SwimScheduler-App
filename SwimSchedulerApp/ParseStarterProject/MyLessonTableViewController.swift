@@ -1,20 +1,20 @@
 //
-//  TableViewController.swift
+//  MyLessonTableViewController.swift
 //  SwimScheduler
 //
-//  Created by Reece Jackson on 6/7/15.
+//  Created by Reece Jackson on 6/17/15.
 //  Copyright (c) 2015 Parse. All rights reserved.
 //
 
 import UIKit
 import Parse
 
-class TableViewController: UITableViewController {
-    
-    var clientIds = [""]
-    var firstNames = [""]
-    var lastNames = [""]
-    var selectedClient:String!
+class MyLessonTableViewController: UITableViewController {
+
+    var userId = PFUser.currentUser()?.objectId!
+    var lessonIds = [""]
+    var lessonDates = [""]
+    var lessonTimes = [""]
     
     @IBAction func newLesson(sender: AnyObject) {
         
@@ -35,10 +35,6 @@ class TableViewController: UITableViewController {
     
     func refresh() {
         
-        firstNames.removeAll(keepCapacity: true)
-        lastNames.removeAll(keepCapacity: true)
-        clientIds.removeAll(keepCapacity: true)
-
         //refresher in middle of page while loading names
         activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))
         activityIndicator.center = self.view.center
@@ -48,34 +44,25 @@ class TableViewController: UITableViewController {
         activityIndicator.startAnimating()
         UIApplication.sharedApplication().beginIgnoringInteractionEvents()
         
-        var query = PFQuery(className: "clients")
-        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
-            if let objects = objects {
-                
-                for object in objects {
+        if userId != nil{
+
+            self.lessonDates.removeAll(keepCapacity: true)
+            self.lessonTimes.removeAll(keepCapacity: true)
+            self.lessonIds.removeAll(keepCapacity: true)
                     
-                    if(object["firstName"]! != nil) {
-                        
-                        if let objectId = object.objectId {
-                                self.clientIds.append(objectId! as String)
-                        }
-                        
-                        self.firstNames.append(object["firstName"] as! String)
-                        self.lastNames.append(object["lastName"] as! String)
-
-                    }
-                }
-                
-                self.tableView.reloadData()
-                
-                self.activityIndicator.stopAnimating()
-                UIApplication.sharedApplication().endIgnoringInteractionEvents()
+            self.getLessonsWithId(userId!)
+                    
+            self.tableView.reloadData()
             
-                self.refresher.endRefreshing()
-                
-            }
+            println("Fuck plz work")
+                    
+                    
+        } else {
+                    
+                println("error")
+    
         }
-
+        
     }
     
     override func viewDidLoad() {
@@ -83,7 +70,7 @@ class TableViewController: UITableViewController {
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
@@ -103,41 +90,38 @@ class TableViewController: UITableViewController {
             
             refresh()
             
-        } else {
-            
-            self.performSegueWithIdentifier("login", sender: self)
-            
-            println("Nobody is logged in")
-            
         }
         
+        println("Fuck plz work")
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section
-        return firstNames.count
+        return lessonDates.count
     }
-
-
+    
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
-
+        
         // Configure the cell...
-        cell.textLabel!.text = firstNames[indexPath.row] + " " + lastNames[indexPath.row]
+        cell.detailTextLabel!.text = String(lessonTimes[indexPath.row])
+        cell.textLabel!.text = String(lessonDates[indexPath.row])
         return cell
         
     }
@@ -148,33 +132,32 @@ class TableViewController: UITableViewController {
         return true
     }
     
+    // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == UITableViewCellEditingStyle.Delete {
-            // handle delete (by removing the data from your array and updating the tableview)
+        if editingStyle == .Delete {
             
-            var deleteId = clientIds[indexPath.row]
+            var deleteId = lessonIds[indexPath.row]
             
-            var query = PFQuery(className: "clients")
+            var query = PFQuery(className: "lessons")
             
             query.getObjectInBackgroundWithId(deleteId, block: { (object, error) -> Void in
                 if error == nil && object != nil{
                     object!.deleteInBackground()
                 } else {
-                    println(error)
+                    //println(error)
                 }
             })
             
-            removeLessonsForClientId(clientIds[indexPath.row])
-            clientIds.removeAtIndex(indexPath.row)
-            firstNames.removeAtIndex(indexPath.row)
-            lastNames.removeAtIndex(indexPath.row)
+            lessonIds.removeAtIndex(indexPath.row)
+            lessonDates.removeAtIndex(indexPath.row)
+            lessonTimes.removeAtIndex(indexPath.row)
             
             self.tableView.reloadData()
-        } else if editingStyle == UITableViewCellEditingStyle.Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+            
+            
         }
     }
-
+    
     func removeLessonsForClientId(clientId: String) {
         
         var query = PFQuery(className: "lessons")
@@ -196,50 +179,80 @@ class TableViewController: UITableViewController {
     
     /*
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        
-
-        
+    
+    
+    
     }
     */
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        selectedClient = clientIds[indexPath.row]
-        self.performSegueWithIdentifier("clientInfo", sender: self)
-    }
-
     /*
     // Override to support rearranging the table view.
     override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
+    
     }
     */
-
+    
     /*
     // Override to support conditional rearranging of the table view.
     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
+    // Return NO if you do not want the item to be re-orderable.
+    return true
     }
     */
-
+    
     
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+    
+    func getLessonsWithId(client: String) {
         
-        if(segue.identifier == "clientInfo") {
+        activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+        
+        var query = PFQuery(className: "lessons")
+        query.whereKey("clientId", equalTo: client)
+        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             
-            var clientPage = segue.destinationViewController as! ClientInfoViewController
-            
-            clientPage.clientId = selectedClient
+            if error == nil && objects != nil{
+                
+                if let objects = objects as? [PFObject] {
+                    for object in objects {
+                        
+                        var lessonDate = object.valueForKey("date") as! NSDate
+                        
+                        var dateFormatter = NSDateFormatter()
+                        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+                        let stringDate: String = dateFormatter.stringFromDate(lessonDate)
+                        
+                        dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle
+                        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+                        let stringTime: String = dateFormatter.stringFromDate(lessonDate)
+                        
+                        self.lessonIds.insert(object.objectId!, atIndex: 0)
+                        self.lessonTimes.insert(stringTime, atIndex: 0)
+                        self.lessonDates.insert(stringDate, atIndex: 0)
+                        
+                    }
+                    
+                    self.tableView.reloadData()
+                    
+                    self.activityIndicator.stopAnimating()
+                    UIApplication.sharedApplication().endIgnoringInteractionEvents()
+                    
+                    println(self.lessonDates)
+                    println(self.lessonTimes)
+                    println(self.lessonIds)
+                    
+                }
+                
+            }
             
         }
+        
     }
-
-
 }

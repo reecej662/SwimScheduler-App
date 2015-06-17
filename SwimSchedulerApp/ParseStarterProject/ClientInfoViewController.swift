@@ -103,9 +103,9 @@ class ClientInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
                         let stringTime: String = dateFormatter.stringFromDate(lessonDate)
       
-                        self.lessonIds.append(object.objectId!)
-                        self.lessonTimes.append(stringTime)
-                        self.lessonDates.append(stringDate)
+                        self.lessonIds.insert(object.objectId!, atIndex: 0)
+                        self.lessonTimes.insert(stringTime, atIndex: 0)
+                        self.lessonDates.insert(stringDate, atIndex: 0)
 
                     }
                     
