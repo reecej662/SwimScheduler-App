@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3426748F1B24C19500DA230B /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3426748E1B24C19500DA230B /* TableViewController.swift */; };
 		347D9CE81B3152E9007232B2 /* MyLessonTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347D9CE71B3152E9007232B2 /* MyLessonTableViewController.swift */; };
+		347D9CEC1B323038007232B2 /* blankPerson.png in Resources */ = {isa = PBXBuildFile; fileRef = 347D9CEB1B323038007232B2 /* blankPerson.png */; };
+		347D9CEE1B3231FA007232B2 /* notebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 347D9CED1B3231FA007232B2 /* notebook.png */; };
 		34A0F1E71B269AFA004983E1 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A0F1E61B269AFA004983E1 /* ParseCrashReporting.framework */; };
 		34A0F1ED1B26A3A7004983E1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A0F1EC1B26A3A7004983E1 /* LoginViewController.swift */; };
 		34B4DB761B2987690014B5E0 /* NewLessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B4DB751B2987690014B5E0 /* NewLessonViewController.swift */; };
@@ -32,6 +34,8 @@
 /* Begin PBXFileReference section */
 		3426748E1B24C19500DA230B /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		347D9CE71B3152E9007232B2 /* MyLessonTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLessonTableViewController.swift; sourceTree = "<group>"; };
+		347D9CEB1B323038007232B2 /* blankPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blankPerson.png; path = ../blankPerson.png; sourceTree = "<group>"; };
+		347D9CED1B3231FA007232B2 /* notebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notebook.png; sourceTree = "<group>"; };
 		34A0F1E61B269AFA004983E1 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseCrashReporting.framework; path = Frameworks/ParseCrashReporting.framework; sourceTree = "<group>"; };
 		34A0F1E81B269BA5004983E1 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtilsV4.framework; path = Frameworks/ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		34A0F1EC1B26A3A7004983E1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -107,6 +111,8 @@
 				34F1E89D1B2770F900D9EBD2 /* ClientInfoViewController.swift */,
 				3426748E1B24C19500DA230B /* TableViewController.swift */,
 				81BA81511A49DA1800E65899 /* Images.xcassets */,
+				347D9CEB1B323038007232B2 /* blankPerson.png */,
+				347D9CED1B3231FA007232B2 /* notebook.png */,
 				81BA81481A49DA1800E65899 /* Supporting Files */,
 			);
 			name = SwimScheduler;
@@ -207,7 +213,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				347D9CEE1B3231FA007232B2 /* notebook.png in Resources */,
 				81BA81501A49DA1800E65899 /* Main.storyboard in Resources */,
+				347D9CEC1B323038007232B2 /* blankPerson.png in Resources */,
 				81BA81521A49DA1800E65899 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

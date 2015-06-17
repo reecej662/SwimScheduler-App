@@ -11,16 +11,16 @@ import Parse
 
 class MyLessonTableViewController: UITableViewController {
 
-    var userId = PFUser.currentUser()?.objectId!
+    var userId = "" //PFUser.currentUser()?.objectId
     var lessonIds = [""]
     var lessonDates = [""]
     var lessonTimes = [""]
     
-    @IBAction func newLesson(sender: AnyObject) {
+    /*@IBAction func newLesson(sender: AnyObject) {
         
         performSegueWithIdentifier("newLesson", sender: self)
         
-    }
+    }*/
     
     var refresher: UIRefreshControl!
     
@@ -29,7 +29,7 @@ class MyLessonTableViewController: UITableViewController {
     @IBAction func logout(sender: AnyObject) {
         
         PFUser.logOut()
-        performSegueWithIdentifier("login", sender: self)
+        performSegueWithIdentifier("logout", sender: self)
         
     }
     
@@ -41,32 +41,26 @@ class MyLessonTableViewController: UITableViewController {
         activityIndicator.hidesWhenStopped = true
         activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         view.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
         UIApplication.sharedApplication().beginIgnoringInteractionEvents()
-        
-        if userId != nil{
 
-            self.lessonDates.removeAll(keepCapacity: true)
-            self.lessonTimes.removeAll(keepCapacity: true)
-            self.lessonIds.removeAll(keepCapacity: true)
-                    
-            self.getLessonsWithId(userId!)
-                    
-            self.tableView.reloadData()
-            
-            println("Fuck plz work")
-                    
-                    
-        } else {
-                    
-                println("error")
-    
-        }
+        self.lessonDates.removeAll(keepCapacity: true)
+        self.lessonTimes.removeAll(keepCapacity: true)
+        self.lessonIds.removeAll(keepCapacity: true)
+        
+        self.getLessonsWithId(userId)
+        
+        //self.tableView.reloadData()
+
+        UIApplication.sharedApplication().endIgnoringInteractionEvents()
+        self.refresher.endRefreshing()
+        
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        println(userId)
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -74,11 +68,9 @@ class MyLessonTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        super.viewDidLoad()
-        
-        var currentUser = PFUser.currentUser()
-        
-        if currentUser?.objectId != nil {
+        if PFUser.currentUser() != nil {
+            
+            userId = PFUser.currentUser()!.objectId!
             
             refresher = UIRefreshControl()
             
@@ -89,11 +81,8 @@ class MyLessonTableViewController: UITableViewController {
             self.tableView.addSubview(refresher)
             
             refresh()
-            
+
         }
-        
-        println("Fuck plz work")
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -120,8 +109,8 @@ class MyLessonTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
         
         // Configure the cell...
-        cell.detailTextLabel!.text = String(lessonTimes[indexPath.row])
         cell.textLabel!.text = String(lessonDates[indexPath.row])
+        cell.detailTextLabel!.text = String(lessonTimes[indexPath.row])
         return cell
         
     }
@@ -158,25 +147,6 @@ class MyLessonTableViewController: UITableViewController {
         }
     }
     
-    func removeLessonsForClientId(clientId: String) {
-        
-        var query = PFQuery(className: "lessons")
-        query.whereKey("clientId", equalTo: clientId)
-        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
-            
-            if error == nil && objects != nil{
-                
-                if let objects = objects as? [PFObject] {
-                    for object in objects {
-                        object.deleteInBackground()
-                    }
-                }
-                
-            }
-        }
-        
-    }
-    
     /*
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
     
@@ -206,16 +176,12 @@ class MyLessonTableViewController: UITableViewController {
     
     func getLessonsWithId(client: String) {
         
-        activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-        view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
-        UIApplication.sharedApplication().beginIgnoringInteractionEvents()
-        
+
         var query = PFQuery(className: "lessons")
-        query.whereKey("clientId", equalTo: client)
+        query.whereKey("instructorId", equalTo: client)
+        query.orderByAscending("date")
+        
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             
             if error == nil && objects != nil{
@@ -233,26 +199,17 @@ class MyLessonTableViewController: UITableViewController {
                         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
                         let stringTime: String = dateFormatter.stringFromDate(lessonDate)
                         
-                        self.lessonIds.insert(object.objectId!, atIndex: 0)
-                        self.lessonTimes.insert(stringTime, atIndex: 0)
-                        self.lessonDates.insert(stringDate, atIndex: 0)
-                        
+                        self.lessonIds.append(object.objectId!)
+                        self.lessonTimes.append(stringTime)
+                        self.lessonDates.append(stringDate)
                     }
                     
                     self.tableView.reloadData()
                     
                     self.activityIndicator.stopAnimating()
-                    UIApplication.sharedApplication().endIgnoringInteractionEvents()
-                    
-                    println(self.lessonDates)
-                    println(self.lessonTimes)
-                    println(self.lessonIds)
                     
                 }
-                
             }
-            
         }
-        
     }
 }

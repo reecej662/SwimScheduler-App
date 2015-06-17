@@ -86,6 +86,8 @@ class ClientInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         
         var query = PFQuery(className: "lessons")
         query.whereKey("clientId", equalTo: client)
+        query.orderByAscending("date")
+        
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             
             if error == nil && objects != nil{
@@ -102,10 +104,10 @@ class ClientInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                         dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle
                         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
                         let stringTime: String = dateFormatter.stringFromDate(lessonDate)
-      
-                        self.lessonIds.insert(object.objectId!, atIndex: 0)
-                        self.lessonTimes.insert(stringTime, atIndex: 0)
-                        self.lessonDates.insert(stringDate, atIndex: 0)
+                        
+                        self.lessonIds.append(object.objectId!)
+                        self.lessonTimes.append(stringTime)
+                        self.lessonDates.append(stringDate)
 
                     }
                     
@@ -113,10 +115,6 @@ class ClientInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                     
                     self.activityIndicator.stopAnimating()
                     UIApplication.sharedApplication().endIgnoringInteractionEvents()
-                    
-                    println(self.lessonDates)
-                    println(self.lessonTimes)
-                    println(self.lessonIds)
                     
                 }
                 
