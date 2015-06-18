@@ -12,9 +12,12 @@ import Parse
 class ClientInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var clientId:String!
+    var clientName:String!
     var lessonIds = [""]
     var lessonDates = [""]
     var lessonTimes = [""]
+    
+    var selectedLessonId:String!
 
     @IBOutlet var name: UILabel!
     @IBOutlet var lessonInfoTable: UITableView!
@@ -37,7 +40,8 @@ class ClientInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                     let firstName = client["firstName"] as! String
                     let lastName = client["lastName"] as! String
                 
-                    self.name.text = firstName + " " + lastName
+                    self.clientName = firstName + " " + lastName
+                    self.name.text = self.clientName
                     
                     self.lessonDates.removeAll(keepCapacity: true)
                     self.lessonTimes.removeAll(keepCapacity: true)
@@ -155,6 +159,13 @@ class ClientInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         return cell
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        selectedLessonId = lessonIds[indexPath.row]
+        self.performSegueWithIdentifier("lessonDetail", sender: self)
+        
+    }
     
     // Override to support editing the table view.
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -183,62 +194,22 @@ class ClientInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
+
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "lessonDetail" {
+            
+            let lessonDetailPage = segue.destinationViewController as! LessonDetailViewController
+            lessonDetailPage.lessonId = selectedLessonId
+            lessonDetailPage.client = clientName
+            
+        }
+    
+    }
+
     
 }
-
-/*
-class lessonDatesTableViewController: UITableViewController {
-        
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            
-            // Uncomment the following line to preserve selection between presentations
-            // self.clearsSelectionOnViewWillAppear = false
-            
-            // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-            // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        }
-        
-        override func didReceiveMemoryWarning() {
-            super.didReceiveMemoryWarning()
-            // Dispose of any resources that can be recreated.
-        }
-        
-        // MARK: - Table view data source
-
-        
-        /*
-        // Override to support conditional editing of the table view.
-        override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-        }
-        */
-    
-        
-        /*
-        // Override to support rearranging the table view.
-        override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-        
-        }
-        */
-        
-        /*
-        // Override to support conditional rearranging of the table view.
-        override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-        }
-        */
-        
-        /*
-        // MARK: - Navigation
-        
-        // In a storyboard-based application, you will often want to do a little preparation before navigation
-        override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-        }
-        */
-    
-}*/

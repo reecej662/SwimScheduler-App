@@ -109,8 +109,11 @@ class MyLessonTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
         
         // Configure the cell...
-        cell.textLabel!.text = String(lessonDates[indexPath.row])
-        cell.detailTextLabel!.text = String(lessonTimes[indexPath.row])
+        if indexPath.row <= lessonDates.count && indexPath.row <= lessonTimes.count {
+            cell.textLabel!.text = String(lessonDates[indexPath.row])
+            cell.detailTextLabel!.text = String(lessonTimes[indexPath.row])
+        }
+        
         return cell
         
     }

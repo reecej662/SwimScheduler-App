@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		342574FA1B327C47000B8F63 /* LessonDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342574F91B327C47000B8F63 /* LessonDetailViewController.swift */; };
 		3426748F1B24C19500DA230B /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3426748E1B24C19500DA230B /* TableViewController.swift */; };
 		347D9CE81B3152E9007232B2 /* MyLessonTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347D9CE71B3152E9007232B2 /* MyLessonTableViewController.swift */; };
 		347D9CEC1B323038007232B2 /* blankPerson.png in Resources */ = {isa = PBXBuildFile; fileRef = 347D9CEB1B323038007232B2 /* blankPerson.png */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		342574F91B327C47000B8F63 /* LessonDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonDetailViewController.swift; sourceTree = "<group>"; };
 		3426748E1B24C19500DA230B /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		347D9CE71B3152E9007232B2 /* MyLessonTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLessonTableViewController.swift; sourceTree = "<group>"; };
 		347D9CEB1B323038007232B2 /* blankPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blankPerson.png; path = ../blankPerson.png; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				81BA814A1A49DA1800E65899 /* AppDelegate.swift */,
 				81BA814C1A49DA1800E65899 /* ViewController.swift */,
 				81BA814E1A49DA1800E65899 /* Main.storyboard */,
+				342574F91B327C47000B8F63 /* LessonDetailViewController.swift */,
 				347D9CE71B3152E9007232B2 /* MyLessonTableViewController.swift */,
 				34B4DB771B2B5ECC0014B5E0 /* lessonOptionsController.swift */,
 				34B4DB751B2987690014B5E0 /* NewLessonViewController.swift */,
@@ -250,6 +253,7 @@
 				34B4DB761B2987690014B5E0 /* NewLessonViewController.swift in Sources */,
 				34B4DB781B2B5ECC0014B5E0 /* lessonOptionsController.swift in Sources */,
 				3426748F1B24C19500DA230B /* TableViewController.swift in Sources */,
+				342574FA1B327C47000B8F63 /* LessonDetailViewController.swift in Sources */,
 				81BA814B1A49DA1800E65899 /* AppDelegate.swift in Sources */,
 				347D9CE81B3152E9007232B2 /* MyLessonTableViewController.swift in Sources */,
 			);
